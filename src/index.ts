@@ -1,77 +1,35 @@
-let num: number = 10;
-let texto: string = "45";
+import express from 'express';
 
-let isFalsy: boolean = false;
-let langName: string = 'Typescript';
+const app = express();
 
+app.use(express.json());
 
-console.log(typeof num);
-console.log(typeof texto);
+app.get('/', (req, res)  => {
 
-console.log(typeof isFalsy);
-console.log(typeof langName);
+    res.status(200).json({
+        message: 'Criamos um servidor Express'
+    });
 
-function greeter1(receiver: any): string{
-    return "Hello " + receiver + "."
-}
-
-console.log(greeter1('world'));
-console.log(greeter1(12));
-console.log(greeter1(true));
+});
 
 
-const booleanArray: boolean[] = [true, false];
+const port = 5000;
+app.listen(port, () => {
+    console.log('Server funcionando na porta ',port);
+});
 
-type AllowedTypes = string | string[];
+/*
+import http from 'http';
 
-function analyzer(receiver: AllowedTypes){
-   return "Hello " + receiver + " friend";
-}
+const server = http.createServer( (req, res) => {
+    res.statusCode = 200;
+    res.setHeader('Content-Type', 'text/plain');
+    res.end('Funcionou.');
+});
 
-let speak = 'Teste';
-let speak2 = ['Teste2','Teste3'];
-let speak3 = 12;
+const port = 5000;
+server.listen(port, ()=>{
+    console.log('Server funcionando na porta ',port);
+});
 
-console.log(analyzer(speak));
-console.log(analyzer(speak2));
-
-
-enum CardSuit {
-    Clubs,
-    Diamonds,
-    Hearts,
-    Spades
-}
-//console.log(CardSuit.Hearts);
-
-enum NatureTypes {
-    Human = 'human',
-	Robot = 'robot',
-	Animal = 'animal'
-}
-
-interface Entity {
- natureType: NatureTypes;
- name: string;
- code?: number;
- birthdate?: number;
-}
-
-const person: Entity = {
-	natureType: NatureTypes.Human,
-	name: 'Lara',
-	birthdate: 14081997
-}
-
-const android: Entity = {
-	natureType: NatureTypes.Robot,
-	name: 'JSBot',
-	code: 1111
-}
-
-function analyzer2(receiver: Entity): string {
-	return `Hello, ${receiver.name}. You are ${receiver.natureType}.`;
-}
-
-console.log(analyzer2(person));
-
+*/
