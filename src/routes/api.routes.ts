@@ -25,7 +25,10 @@ apiRouter.get('/users/all', userController.viewAll);
 apiRouter.delete('/users/delete/:id', userController.destroy);
 
 /* Rotas de Filmes */
-apiRouter.get('/movies', authorize, movieController.index);
+apiRouter.get('/movies', movieController.index);
+apiRouter.get('/movies/id/:id', movieController.view);
+apiRouter.get('/movies/:search', movieController.search);
+apiRouter.post('/movies/new', movieController.create);
 
 
 export  { apiRouter };

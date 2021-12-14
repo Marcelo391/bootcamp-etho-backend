@@ -1,8 +1,8 @@
 import { Router } from 'express';
-import * as movieFetcher from '../external/movieFetcher';
+import { movieFetcher } from '../external/movieFetcher';
 
 const extRouter = Router();
 
-extRouter.get('/external', movieFetcher.movieFetcher);
+extRouter.get('/external', movieFetcher);
 
 export { extRouter }
