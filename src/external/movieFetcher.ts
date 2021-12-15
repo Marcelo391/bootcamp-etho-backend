@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import fs from 'fs';
 import axios from "axios";
+import { Movie } from '../models/movie.model';
 
 const URL_MOVIES = 'https://api.themoviedb.org/3/trending/all/week?api_key=8c9751844a68e8e7105d68bd90f6eb25';
 const URL_CATEGORY_MOVIES = 'https://api.themoviedb.org/3/genre/movie/list?api_key=8c9751844a68e8e7105d68bd90f6eb25&language=en-US';
@@ -61,7 +62,7 @@ async function movieFetcher(req: Request, res: Response){
         });
     });
 
-    //writeToJson(moviesArray);
+    writeToJson(moviesArray);
 
     return res.status(200).json({ moviesArray });
 }
@@ -73,7 +74,7 @@ function writeToJson(array: Object[]){
     
     const fileStream = fs.createWriteStream('./src/movies.json');
     
-    fileStream.write(arrayMovies + '/n');
+    fileStream.write(arrayMovies + '\n');
     
     fileStream.on('finish', () => {
         console.log('File Stream concluido');
@@ -87,11 +88,20 @@ function writeToJson(array: Object[]){
 
 }   
 
-function bulkCreate() {
-    console.log('Criar em batch');
+async function bulkCreate(req: Request, res: Response) {
+
+    const { filePath } = req.body;
+
+    const array = JSON.parse(fs.readFileSync(filePath, 'utf8'));   
+
+    const movies = await Movie.insertMany(array).catch(error => {
+        return res.status(500).json({error});
+    })
+
+    return res.status(201).json({movies});    
 }
 
-export { movieFetcher }
+export { movieFetcher, bulkCreate }
 
 //https://api.themoviedb.org/3/trending/all/week?api_key=8c9751844a68e8e7105d68bd90f6eb25
 //https://api.themoviedb.org/3/genre/movie/list?api_key=8c9751844a68e8e7105d68bd90f6eb25
