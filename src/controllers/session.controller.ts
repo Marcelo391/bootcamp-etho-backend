@@ -61,7 +61,7 @@ function createAccessToken(userId: string){
         },
         token,
         {
-            expiresIn:900
+            expiresIn:86400
         }
     );
     return accessToken;    
