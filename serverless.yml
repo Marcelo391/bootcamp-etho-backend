@@ -1,0 +1,27 @@
+service: netflix-express-web-mjr
+provider:
+  name: aws
+  runtime: nodejs14.x
+  stage: dev
+  region: us-east-1
+  memorySize: 128
+  timeout: 30
+  environment:
+    MONGO_URI: 'mongodb+srv://bootcamp-user:bootcamp-password@node-db-bootcamp.u0sqx.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
+    # MONGO_URI: 'mongodb+srv://netflix:75wrPUdNEHxyCT@netflix-mongo-web.lgn1a.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
+    TOKEN_SECRET: 'anVerySecretTokenDescription'
+plugins:
+  - serverless-plugin-typescript
+  - serverless-offline
+functions:
+  app:
+    handler: src/index.handler
+    events:
+      - http:
+          path: /
+          method: ANY
+          cors: true
+      - http:
+          path: /{proxy+}
+          method: ANY
+          cors: true
